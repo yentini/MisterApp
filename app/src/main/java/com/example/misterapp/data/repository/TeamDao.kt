@@ -2,10 +2,7 @@ package com.example.misterapp.data.repository
 
 import androidx.room.*
 import com.example.misterapp.core.Constants.Companion.TEAM_TABLE
-import com.example.misterapp.core.Constants.Companion.TEMPORADAS_TABLE
 import com.example.misterapp.data.TeamEntity
-import com.example.misterapp.data.TemporadaEntity
-import com.example.misterapp.data.TemporadaWithTeams
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -18,7 +15,7 @@ interface TeamDao {
     fun getAll(): Flow<List<TeamEntity>>
 
     @Query("SELECT * FROM $TEAM_TABLE WHERE teamId = :teamId")
-    fun getTeam(teamId: Int): TeamEntity
+    fun getTeam(teamId: Int): Flow<TeamEntity>
 
     @Insert
     suspend fun addTeam(team: TeamEntity)

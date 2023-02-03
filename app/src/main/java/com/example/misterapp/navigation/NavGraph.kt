@@ -8,15 +8,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.misterapp.core.Constants.Companion.PLAYER_ID
 import com.example.misterapp.core.Constants.Companion.TEAM_ID
-import com.example.misterapp.core.Constants.Companion.TEMPORADA
 import com.example.misterapp.core.Constants.Companion.TEMPORADA_ID
-import com.example.misterapp.data.repository.PlayerRepository
 import com.example.misterapp.navigation.Screen.*
-import com.example.misterapp.ui.temporada.TemporadasScreen
 import com.example.misterapp.ui.my_teams.MyTeamsScreen
-import com.example.misterapp.ui.players.PlayersScreen
 import com.example.misterapp.ui.players.PlayerScreen
+import com.example.misterapp.ui.players.PlayersScreen
 import com.example.misterapp.ui.team.TeamScreen
+import com.example.misterapp.ui.temporada.TemporadasScreen
 
 @Composable
 fun NavGraph(
@@ -91,9 +89,9 @@ fun NavGraph(
                     navController.popBackStack()
                 },
                 navigateToMyTeamScreen = {
-                    navController.navigate(
-                        TeamScreen.route
-                    )
+                        teamId -> navController.navigate(
+                                "${TeamScreen.route}/${teamId}"
+                                )
                 }
             )
         }
