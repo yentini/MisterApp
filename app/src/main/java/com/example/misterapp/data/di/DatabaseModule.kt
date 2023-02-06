@@ -6,6 +6,7 @@ import com.example.misterapp.core.Constants.Companion.TEMPORADAS_TABLE
 import com.example.misterapp.data.MisterAppDatabase
 import com.example.misterapp.data.repository.PlayerDao
 import com.example.misterapp.data.repository.TeamDao
+import com.example.misterapp.data.repository.TeamPlayersDao
 import com.example.misterapp.data.repository.TemporadaDao
 import dagger.Module
 import dagger.Provides
@@ -16,6 +17,11 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 class DatabaseModule {
+
+    @Provides
+    fun provideTeamPlayersDao(misterAppDatabase: MisterAppDatabase): TeamPlayersDao{
+        return misterAppDatabase.teamPlayersDao()
+    }
 
     @Provides
     fun provideTemporadaDao(misterAppDatabase: MisterAppDatabase): TemporadaDao{

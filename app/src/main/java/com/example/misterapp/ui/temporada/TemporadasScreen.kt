@@ -1,22 +1,18 @@
 package com.example.misterapp.ui.temporada
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.produceState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.misterapp.core.Constants.Companion.TEMPORADAS_SCREEN
+import com.example.misterapp.ui.generic_components.ContentLoadingProgressBar
 import com.example.misterapp.ui.temporada.components.AddTemporadaAlertDialog
 import com.example.misterapp.ui.temporada.components.AddTemporadaFloatingActionButton
 import com.example.misterapp.ui.temporada.components.BottomBar
@@ -44,14 +40,7 @@ fun TemporadasScreen(
     when(uiState){
         is TemporadasUiState.Error -> {}
         TemporadasUiState.Loading -> {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
+            ContentLoadingProgressBar()
         }
         is TemporadasUiState.Success -> {
             Scaffold(

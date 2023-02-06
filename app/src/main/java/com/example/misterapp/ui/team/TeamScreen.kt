@@ -1,19 +1,16 @@
 package com.example.misterapp.ui.team
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.misterapp.ui.generic_components.ContentLoadingProgressBar
+import com.example.misterapp.ui.team.components.TeamContent
 import com.example.misterapp.ui.team.components.TeamTopBar
 
 @Composable
@@ -40,14 +37,7 @@ fun TeamScreen(
     when(uiTeamState) {
         is TeamUiState.Error -> {}
         TeamUiState.Loading -> {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
+            ContentLoadingProgressBar()
         }
         is TeamUiState.Success -> {
             Scaffold(
@@ -57,7 +47,11 @@ fun TeamScreen(
                         navigateBack = navigateBack
                     )
                 },
-                content = {}/* { padding ->
+                content = {
+                    TeamContent(
+                        (uiTeamState as TeamUiState.Success).team
+                    )
+                      }/* { padding ->
                     OnePlayerContent(
                         (uiOnePlayerState as PlayerUiState.Success).player
                     )
