@@ -21,14 +21,15 @@ import com.example.misterapp.domain.model.TeamModel
 
 @Composable
 fun TeamContent(
-    team: TeamModel
+    team: TeamModel,
+    navigateToTeamPlayersScreen: (teamId: Int) -> Unit
 ){
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
     ) {
         IconButton(
-            onClick = { }
+            onClick = { navigateToTeamPlayersScreen(team.teamId) }
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally

@@ -13,6 +13,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.misterapp.core.Alphabet
 import com.example.misterapp.core.Categorys
 import com.example.misterapp.core.Constants.Companion.ADD
 import com.example.misterapp.core.Constants.Companion.ADD_TEAM
@@ -32,13 +33,15 @@ fun AddTeamAlertDialog(
     temporadaId: Int
 ) {
     if (show) {
-        var level by remember { mutableStateOf(NO_VALUE) }
         var year by remember { mutableStateOf(NO_VALUE) }
         var club by remember { mutableStateOf(NO_VALUE) }
         val categorys = Categorys.values().map { it.description }
+        val levels = Alphabet.values().map { it.description }
         val default = 0
-        var expanded by remember { mutableStateOf(false) }
+        var expandedCategory by remember { mutableStateOf(false) }
+        var expandedLevel by remember { mutableStateOf(false) }
         var category by remember { mutableStateOf(categorys[default].toString()) }
+        var level by remember { mutableStateOf(levels[default].toString()) }
 
         Dialog(
             onDismissRequest = { onDismiss() }
@@ -56,9 +59,9 @@ fun AddTeamAlertDialog(
                     fontWeight = FontWeight.Bold
                 )
                 ExposedDropdownMenuBox(
-                    expanded = expanded,
+                    expanded = expandedCategory,
                     onExpandedChange = {
-                        expanded = !expanded
+                        expandedCategory = !expandedCategory
                     },
                     modifier = Modifier
                         .padding(horizontal = 8.dp, vertical = 8.dp)
@@ -73,22 +76,21 @@ fun AddTeamAlertDialog(
                         },
                         trailingIcon = {
                             ExposedDropdownMenuDefaults.TrailingIcon(
-                                expanded = expanded
+                                expanded = expandedCategory
                             )
-                        },
-                        colors = ExposedDropdownMenuDefaults.textFieldColors()
+                        }
                     )
                     ExposedDropdownMenu(
-                        expanded = expanded,
+                        expanded = expandedCategory,
                         onDismissRequest = {
-                            expanded = false
+                            expandedCategory = false
                         }
                     ) {
                         categorys.forEach { selectionOption ->
                             DropdownMenuItem(
                                 onClick = {
                                     category = selectionOption.toString()
-                                    expanded = false
+                                    expandedCategory = false
                                 }
                             ) {
                                 Text(text = selectionOption.toString())
@@ -96,15 +98,46 @@ fun AddTeamAlertDialog(
                         }
                     }
                 }
-                OutlinedTextField(
+                ExposedDropdownMenuBox(
+                    expanded = expandedLevel,
+                    onExpandedChange = {
+                        expandedLevel = !expandedLevel
+                    },
                     modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
                         .padding(horizontal = 8.dp, vertical = 8.dp)
-                        .fillMaxWidth(),
-                    value = level,
-                    label = { Text(LEVEL) },
-                    onValueChange = { level = it }
-                )
+                        .fillMaxWidth()
+                ) {
+                    OutlinedTextField(
+                        readOnly = true,
+                        value = level,
+                        onValueChange = { },
+                        label = {
+                            Text(LEVEL)
+                        },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(
+                                expanded = expandedLevel
+                            )
+                        }
+                    )
+                    ExposedDropdownMenu(
+                        expanded = expandedLevel,
+                        onDismissRequest = {
+                            expandedLevel = false
+                        }
+                    ) {
+                        levels.forEach { selectionOption ->
+                            DropdownMenuItem(
+                                onClick = {
+                                    level = selectionOption.toString()
+                                    expandedLevel = false
+                                }
+                            ) {
+                                Text(text = selectionOption.toString())
+                            }
+                        }
+                    }
+                }
                 OutlinedTextField(
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)

@@ -1,5 +1,9 @@
 package com.example.misterapp.domain.model
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.MutableLiveData
+import com.example.misterapp.core.Constants
 import java.time.LocalDate
 
 data class PlayerModel (
@@ -8,5 +12,9 @@ data class PlayerModel (
     val email: String,
     val phone: Int,
     val birthday: LocalDate,
-    val isSelected: Boolean = false
-)
+    var isSelected: MutableState<Boolean> = mutableStateOf(false)
+){
+    fun toggle(){
+        isSelected.value = !isSelected.value
+    }
+}

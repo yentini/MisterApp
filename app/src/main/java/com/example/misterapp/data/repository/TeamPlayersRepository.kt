@@ -1,6 +1,7 @@
 package com.example.misterapp.data.repository
 
 import com.example.misterapp.data.TeamPlayersEntity
+import com.example.misterapp.domain.model.PlayerModel
 import com.example.misterapp.domain.model.TeamPlayerModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -10,21 +11,24 @@ import javax.inject.Singleton
 @Singleton
 class TeamPlayersRepository @Inject constructor(private val teamPlayersDao: TeamPlayersDao) {
 
-    fun getTeamPlayers(teamId: Int): Flow<List<TeamPlayerModel>> {
+    fun getTeamPlayers(teamId: Int): Flow<List<PlayerModel>> {
         return teamPlayersDao.getTeamPlayers(teamId)
-            .map { items ->
-                items.map {
-                    TeamPlayerModel(
-                        it.teamId,
-                        it.teamId,
-                        it.number
+            .map { it.teamPlayers.map {
+                    PlayerModel(
+                        it.playerId,
+                        it.name,
+                        it.email,
+                        it.phone,
+                        it.birthday
                     )
                 }
             }
     }
 
-    suspend fun add(teamPlayer: TeamPlayerModel) {
-        teamPlayersDao.addPlayerToTeam(teamPlayer.toData())
+    suspend fun add(teamPlayers: List<TeamPlayerModel>) {
+        teamPlayersDao.addPlayersToTeam(
+            teamPlayers.map { it.toData() }
+        )
     }
 
     suspend fun delete(teamPlayer: TeamPlayerModel) {
@@ -38,5 +42,5 @@ class TeamPlayersRepository @Inject constructor(private val teamPlayersDao: Team
 }
 
 fun TeamPlayerModel.toData(): TeamPlayersEntity {
-    return TeamPlayersEntity(this.playerId, this.teamId, this.number)
+    return TeamPlayersEntity(this.playerId, this.teamId)
 }

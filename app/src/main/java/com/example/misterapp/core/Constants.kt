@@ -7,7 +7,7 @@ class Constants {
         const val TEMPORADAS_TABLE = "temporadas_table"
         const val TEAM_TABLE = "teams_table"
         const val PLAYER_TABLE = "players_table"
-        const val PLANTILLA = "plantilla_table"
+        const val TEAM_PLAYERS_TABLE = "plantilla_table"
 
         // Screens
         const val TEMPORADAS_SCREEN = "Temporadas"
@@ -15,6 +15,7 @@ class Constants {
         const val TEAM_SCREEN = "Equipo"
         const val PLAYERS_SCREEN = "Jugadores"
         const val PLAYER_SCREEN = "Jugador"
+        const val TEAM_PLAYERS_SCREEN = "Plantilla"
 
         // Arguments
         const val TEMPORADA_ID = "id"
@@ -44,6 +45,7 @@ class Constants {
         const val EMAIL = "Email"
         const val EMAIL_EXAMPLE = "texto@dominio.xxx"
         const val PHONE = "Teléfono"
+        const val TEAM_PLAYERS = "Plantilla"
 
         // Placeholders
         const val TEMPORADA_YEAR = "Temporada 22-23"

@@ -17,7 +17,8 @@ import com.example.misterapp.ui.team.components.TeamTopBar
 fun TeamScreen(
     teamViewModel: TeamViewModel = hiltViewModel(),
     teamId: Int,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    navigateToTeamPlayersScreen: (teamId: Int) -> Unit
 ){
     LaunchedEffect(Unit){
         teamViewModel.refreshTeam(teamId)
@@ -49,13 +50,10 @@ fun TeamScreen(
                 },
                 content = {
                     TeamContent(
-                        (uiTeamState as TeamUiState.Success).team
+                        (uiTeamState as TeamUiState.Success).team,
+                        navigateToTeamPlayersScreen= navigateToTeamPlayersScreen
                     )
-                      }/* { padding ->
-                    OnePlayerContent(
-                        (uiOnePlayerState as PlayerUiState.Success).player
-                    )
-                }*/,
+                  },
                 floatingActionButton = {}
             )
         }

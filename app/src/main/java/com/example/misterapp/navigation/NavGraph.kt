@@ -15,6 +15,7 @@ import com.example.misterapp.ui.players.PlayerScreen
 import com.example.misterapp.ui.players.PlayersScreen
 import com.example.misterapp.ui.team.TeamScreen
 import com.example.misterapp.ui.temporada.TemporadasScreen
+import com.example.misterapp.ui.team.TeamPlayersScreen
 
 @Composable
 fun NavGraph(
@@ -109,8 +110,30 @@ fun NavGraph(
                     teamId = teamId,
                     navigateBack = {
                         navController.popBackStack()
+                    },
+                    navigateToTeamPlayersScreen = {
+                            teamId -> navController.navigate(
+                        "${TeamPlayersScreen.route}/${teamId}"
+                            )
                     }
                 )
+        }
+        composable(
+            route = "${TeamPlayersScreen.route}/{$TEAM_ID}",
+            arguments = listOf(
+                navArgument(TEAM_ID){
+                    type = NavType.IntType
+                }
+            )
+        ){
+            navBackStackEntry ->
+                val teamId = navBackStackEntry.arguments?.getInt(TEAM_ID) ?: 0
+            TeamPlayersScreen(
+                teamId = teamId,
+                navigateBack = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }
