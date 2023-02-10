@@ -13,13 +13,14 @@ class TeamPlayersRepository @Inject constructor(private val teamPlayersDao: Team
 
     fun getTeamPlayers(teamId: Int): Flow<List<PlayerModel>> {
         return teamPlayersDao.getTeamPlayers(teamId)
-            .map { it.teamPlayers.map {
+            .map {players -> players.teamPlayers.map {
                     PlayerModel(
                         it.playerId,
                         it.name,
                         it.email,
                         it.phone,
-                        it.birthday
+                        it.birthday,
+                        number = players.teamPlayersRef.filter {playerRef -> playerRef.playerId == it.playerId }.first().number
                     )
                 }
             }
@@ -42,5 +43,5 @@ class TeamPlayersRepository @Inject constructor(private val teamPlayersDao: Team
 }
 
 fun TeamPlayerModel.toData(): TeamPlayersEntity {
-    return TeamPlayersEntity(this.playerId, this.teamId)
+    return TeamPlayersEntity(this.playerId, this.teamId, this.number)
 }

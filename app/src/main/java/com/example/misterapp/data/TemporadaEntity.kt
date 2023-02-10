@@ -8,5 +8,6 @@ import com.example.misterapp.core.Constants.Companion.TEMPORADAS_TABLE
 data class TemporadaEntity (
     @PrimaryKey
     val id: Int,
-    var name: String
+    val name: String,
+    val favorite: Boolean
 )

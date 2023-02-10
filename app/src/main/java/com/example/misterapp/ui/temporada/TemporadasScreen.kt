@@ -52,13 +52,16 @@ fun TemporadasScreen(
                 },
                 content ={ padding ->
                     TemporadasContent(
+                        (uiState as TemporadasUiState.Success).temporadas.filter { it.favorite == true }.firstOrNull(),
                         (uiState as TemporadasUiState.Success).temporadas,
                         navigateToMyTeamsScreen = navigateToMyTeamsScreen
                     )
                     AddTemporadaAlertDialog(
-                        showDialog,
+                        show = showDialog,
                         onDismiss = { temporadasViewModel.onDialogClose() },
-                        onTemporadaAdded = { temporadasViewModel.onTemporadaCreated(it) }
+                        onTemporadaAdded = { temporadaName: String, favorite: Boolean ->
+                                                temporadasViewModel.onTemporadaCreated(temporadaName, favorite)
+                        }
                     )
                 },
                 floatingActionButton = {

@@ -10,6 +10,7 @@ import com.example.misterapp.ui.temporada.TemporadasViewModel
 
 @Composable
 fun TemporadasContent(
+    temporadaActualFavorite: TemporadaModel?,
     temporadas: List<TemporadaModel>,
     navigateToMyTeamsScreen: (temporadaId: Int) -> Unit
 ) {
@@ -19,6 +20,7 @@ fun TemporadasContent(
             temporadas, key = { it.id }
         ) {
             temporada -> TemporadaCard(
+                        temporadaActualFavorite,
                         temporada,
                         navigateToMyTeamsScreen
                     )

@@ -4,10 +4,10 @@ import com.example.misterapp.data.repository.TemporadaRepository
 import com.example.misterapp.domain.model.TemporadaModel
 import javax.inject.Inject
 
-class GetTemporadaUseCase @Inject constructor(
+class UpdateTemporadasUseCase@Inject constructor(
     private val temporadaRepository: TemporadaRepository
 ){
-    operator fun invoke(id: Int): TemporadaModel{
-        return temporadaRepository.get(id)
+    suspend operator fun invoke(temporadasModel: List<TemporadaModel>){
+        temporadaRepository.updateTemporadas(temporadasModel)
     }
 }

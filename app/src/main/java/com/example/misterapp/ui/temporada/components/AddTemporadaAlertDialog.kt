@@ -16,19 +16,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.misterapp.core.Constants.Companion.ADD
 import com.example.misterapp.core.Constants.Companion.ADD_TEMPORADA
 import com.example.misterapp.core.Constants.Companion.NO_VALUE
 import com.example.misterapp.core.Constants.Companion.TEMPORADA
 import com.example.misterapp.core.Constants.Companion.TEMPORADA_EXAMPLE
 import com.example.misterapp.core.Constants.Companion.TEMPORADA_YEAR
+import com.example.misterapp.ui.temporada.TemporadasViewModel
 
 @Composable
 fun AddTemporadaAlertDialog(
+    temporadasViewModel: TemporadasViewModel = hiltViewModel(),
     show: Boolean,
     onDismiss: () -> Unit,
-    onTemporadaAdded: (String) -> Unit
+    onTemporadaAdded: (String, Boolean) -> Unit
 ) {
+    LaunchedEffect(Unit){
+        temporadasViewModel.getNumTemporadas()
+    }
+
     if (show) {
         var myTemporada by remember { mutableStateOf(NO_VALUE) }
 
@@ -61,7 +68,7 @@ fun AddTemporadaAlertDialog(
                 Spacer(modifier = Modifier.size(4.dp))
                 Button(onClick = {
                     onDismiss()
-                    onTemporadaAdded(myTemporada)
+                    onTemporadaAdded(myTemporada, temporadasViewModel.numTemporadas == 0)
                     myTemporada = ""
                 }, modifier = Modifier
                         .padding(horizontal =  8.dp)

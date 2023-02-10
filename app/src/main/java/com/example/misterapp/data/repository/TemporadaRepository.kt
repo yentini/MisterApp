@@ -11,22 +11,7 @@ import javax.inject.Singleton
 class TemporadaRepository @Inject constructor(private val temporadaDao: TemporadaDao) {
 
     val temporadas: Flow<List<TemporadaModel>> =
-       temporadaDao.getTemporadas().map { items -> items.map { TemporadaModel(it.id, it.name) } }
-
-    /* val temporadas: Flow<List<TemporadaWithTeamsModel>> =
-    temporadaDao.getTemporadasWithTeams().map { items -> items.map {
-        TemporadaWithTeamsModel(
-            it.temporada,
-            it.teams!!.map {
-             TeamModel(
-                 it.teamId,
-                 it.name,
-                 it.temporadaId
-             )
-            }
-        )
-    } }
-    */
+       temporadaDao.getTemporadas().map { items -> items.map { TemporadaModel(it.id, it.name, it.favorite) } }
 
     suspend fun add(temporada: TemporadaModel){
         temporadaDao.addTemporada(temporada.toData())
@@ -40,13 +25,20 @@ class TemporadaRepository @Inject constructor(private val temporadaDao: Temporad
         temporadaDao.updateTemporada(temporada.toData())
     }
 
-    suspend fun get(id: Int): TemporadaModel{
-        var temporadaEntity = temporadaDao.getTemporada(id)
-        return TemporadaModel(temporadaEntity.id, temporadaEntity.name)
+    suspend fun updateTemporadas(temporadas: List<TemporadaModel>){
+        temporadaDao.updateTemporadas(temporadas.map { it.toData()})
     }
 
+    fun get(id: Int): TemporadaModel{
+        var temporadaEntity = temporadaDao.getTemporada(id)
+        return TemporadaModel(temporadaEntity.id, temporadaEntity.name, temporadaEntity.favorite)
+    }
+
+    fun getNumTemporadas(): Int{
+        return temporadaDao.getNumTemporadas()
+    }
 }
 
 fun TemporadaModel.toData(): TemporadaEntity{
-    return TemporadaEntity(this.id, this.name)
+    return TemporadaEntity(this.id, this.name, this.favorite)
 }

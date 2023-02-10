@@ -95,7 +95,7 @@ class TeamViewModel @Inject constructor(
         players: List<PlayerModel>
     ){
         var teamPlayerModel: TeamPlayerModel
-        var teamPlayers: List<TeamPlayerModel> = players.map { TeamPlayerModel(it.playerId, teamId) }
+        var teamPlayers: List<TeamPlayerModel> = players.map { TeamPlayerModel(it.playerId, teamId, it.number) }
         viewModelScope.launch(Dispatchers.IO) {
             addPlayersToTeamUseCase(teamPlayers)
         }

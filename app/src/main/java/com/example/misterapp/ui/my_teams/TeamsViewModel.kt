@@ -31,7 +31,7 @@ class TeamsViewModel @Inject constructor(
         .catch { Error(it) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TeamsUiState.Loading)
 
-    var temporada by mutableStateOf(TemporadaModel(name = NO_VALUE))
+    var temporada by mutableStateOf(TemporadaModel(name = NO_VALUE, favorite = false))
     private val _showDialog = MutableLiveData<Boolean>()
     val showDialog: LiveData<Boolean> = _showDialog
 

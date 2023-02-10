@@ -1,5 +1,6 @@
 package com.example.misterapp.ui.my_teams.components
 
+import android.annotation.SuppressLint
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -7,26 +8,38 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.misterapp.core.ActionItem
 import com.example.misterapp.core.Constants.Companion.DELETE
 import com.example.misterapp.core.Constants.Companion.EDIT
 import com.example.misterapp.domain.model.TemporadaModel
+import com.example.misterapp.ui.generic_components.ContentLoadingProgressBar
 import com.example.misterapp.ui.generic_components.OverflowMenuAction
+import com.example.misterapp.ui.temporada.TemporadasUiState
+import com.example.misterapp.ui.temporada.TemporadasViewModel
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun MyTeamsTopBar (
+    temporadasViewModel: TemporadasViewModel = hiltViewModel(),
     temporada: TemporadaModel,
     navigateBack: () -> Unit,
     navigateTemporadas: () -> Unit,
     deleteTemporada: (TemporadaModel) -> Unit
 ){
+    LaunchedEffect(Unit){
+        temporadasViewModel.getNumTemporadas()
+    }
+
     val options = myTeamsOptions(
         navigateTemporadas,
         deleteTemporada,
-        temporada
+        temporada,
+        temporadasViewModel.numTemporadas
     )
 
     TopAppBar (
@@ -55,7 +68,8 @@ fun MyTeamsTopBar (
 private fun myTeamsOptions(
     navigateTemporadas: () -> Unit,
     deleteTemporada: (TemporadaModel) -> Unit,
-    temporada: TemporadaModel
+    temporada: TemporadaModel,
+    numTemporadas: Int
 ): List<ActionItem>{
     return listOf(
         ActionItem(
@@ -72,7 +86,8 @@ private fun myTeamsOptions(
                 deleteTemporada(temporada)
                 navigateTemporadas()
             },
-            order = 2
+            order = 2,
+            enabled = numTemporadas == 1 || !temporada.favorite
         )
     )
 }

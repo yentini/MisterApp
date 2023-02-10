@@ -2,12 +2,7 @@ package com.example.misterapp.data.repository
 
 import androidx.room.*
 import com.example.misterapp.core.Constants.Companion.PLAYER_TABLE
-import com.example.misterapp.core.Constants.Companion.TEAM_TABLE
-import com.example.misterapp.core.Constants.Companion.TEMPORADAS_TABLE
 import com.example.misterapp.data.PlayerEntity
-import com.example.misterapp.data.TeamEntity
-import com.example.misterapp.data.TemporadaEntity
-import com.example.misterapp.data.TemporadaWithTeams
 import kotlinx.coroutines.flow.Flow
 
 @Dao

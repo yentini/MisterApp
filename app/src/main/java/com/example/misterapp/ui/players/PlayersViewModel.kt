@@ -45,6 +45,9 @@ class PlayersViewModel  @Inject constructor(
             )
     }
 
+    private val _nameOrderAsc = MutableLiveData<Boolean>(true)
+    val nameOrderAsc : LiveData<Boolean> = _nameOrderAsc
+
     private val _playerName = MutableLiveData<String>()
     val playerName : LiveData<String> = _playerName
 
@@ -62,6 +65,10 @@ class PlayersViewModel  @Inject constructor(
 
     private val _showDialog = MutableLiveData<Boolean>()
     val showDialog: LiveData<Boolean> = _showDialog
+
+    fun toggleNameOrder(){
+        _nameOrderAsc.value = !_nameOrderAsc.value!!
+    }
 
     fun onDialogClose() {
         _showDialog.value = false

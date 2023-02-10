@@ -1,5 +1,6 @@
 package com.example.misterapp.ui.team.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,26 +28,19 @@ fun TeamPlayerCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp),
-        elevation = if (playerModel.isSelected.value) {
-            4.dp
-        }else{
-            8.dp
-        },
-        backgroundColor =if (playerModel.isSelected.value) {
-            Color.Green
-        }else{
-            MaterialTheme.colors.surface
-        },
-        onClick ={
-            playerModel.toggle()
-        }
+        elevation = 4.dp,
+        onClick ={}
     ) {
         Row(
             Modifier
                 .fillMaxWidth()
                 .padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
         ) {
+            Text(
+                text=playerModel.number.toString()
+            )
             Text(
                 playerModel.name,
                 Modifier.weight(1f))

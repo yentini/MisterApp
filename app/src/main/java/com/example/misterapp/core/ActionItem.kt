@@ -6,5 +6,6 @@ data class ActionItem(
     val name: String,
     val icon: ImageVector? = null,
     val action: () -> Unit,
-    val order: Int
+    val order: Int,
+    val enabled: Boolean = true
 )

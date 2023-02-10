@@ -31,7 +31,8 @@ fun OverflowMenuAction(
                     onClick = {
                         option.action()
                         setExpanded(false)
-                    }
+                    },
+                    enabled = option.enabled
                 ) {
                     Text(text = option.name)
                 }

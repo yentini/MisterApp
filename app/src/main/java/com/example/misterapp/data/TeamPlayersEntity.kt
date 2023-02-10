@@ -11,7 +11,8 @@ import com.example.misterapp.core.Constants
     primaryKeys = ["playerId","teamId"])
 data class TeamPlayersEntity(
     val playerId: Int,
-    val teamId: Int
+    val teamId: Int,
+    val number: Int
 )
 
 data class  TeamPlayers(
@@ -21,5 +22,10 @@ data class  TeamPlayers(
         entityColumn = "playerId",
         associateBy = Junction(TeamPlayersEntity::class)
     )
-    val teamPlayers: List<PlayerEntity>
+    val teamPlayers: List<PlayerEntity>,
+    @Relation(
+        parentColumn = "teamId",
+        entityColumn = "teamId"
+    )
+    val teamPlayersRef: List<TeamPlayersEntity>
 )

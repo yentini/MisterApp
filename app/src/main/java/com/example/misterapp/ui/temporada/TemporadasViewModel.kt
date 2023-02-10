@@ -21,14 +21,17 @@ import javax.inject.Inject
 class TemporadasViewModel @Inject constructor(
     private val addTemporadaUseCase: AddTemporadaUseCase,
     private val getTemporadasUseCase: GetTemporadasUseCase,
-    private val getTemporadaUseCase: GetTemporadaUseCase,
+    private val getNumTemporadaUseCase: GetNumTemporadaUseCase,
     private val deleteTemporadaUseCase: DeleteTemporadaUseCase,
-    private val updateTemporadaUseCase: UpdateTemporadaUseCase
+    private val updateTemporadaUseCase: UpdateTemporadaUseCase,
+    private val updateTemporadasUseCase: UpdateTemporadasUseCase
 ): ViewModel(){
 
     val uiState: StateFlow<TemporadasUiState> = getTemporadasUseCase().map(::Success)
         .catch { Error(it) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
+
+    var numTemporadas by mutableStateOf(0)
 
     private val _showDialog = MutableLiveData<Boolean>()
     val showDialog: LiveData<Boolean> = _showDialog
@@ -41,15 +44,30 @@ class TemporadasViewModel @Inject constructor(
         _showDialog.value = true
     }
 
-    fun onTemporadaCreated(temporadaName: String) {
+    fun getNumTemporadas(){
         viewModelScope.launch(Dispatchers.IO) {
-            addTemporadaUseCase(TemporadaModel(name = temporadaName))
+            numTemporadas = getNumTemporadaUseCase()
+        }
+    }
+
+    fun onTemporadaCreated(
+        temporadaName: String,
+        favorite: Boolean
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            addTemporadaUseCase(TemporadaModel(name = temporadaName, favorite = favorite))
         }
     }
 
     fun deleteTemporada(temporada: TemporadaModel){
         viewModelScope.launch(Dispatchers.IO) {
             deleteTemporadaUseCase(temporada)
+        }
+    }
+
+    fun updateTemporadas(temporadas: List<TemporadaModel>){
+        viewModelScope.launch(Dispatchers.IO) {
+            updateTemporadasUseCase(temporadas)
         }
     }
 

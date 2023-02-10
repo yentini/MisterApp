@@ -70,7 +70,7 @@ fun AddTeamPlayersAlertDialog(
                                 ,
                                 key = { it.playerId }
                             ) { player ->
-                                TeamPlayerCard(player)
+                                TeamPlayerCardDialog(player)
                             }
                         }
                         Spacer(modifier = Modifier.size(4.dp))
