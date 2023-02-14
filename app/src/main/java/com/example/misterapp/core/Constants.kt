@@ -9,6 +9,8 @@ class Constants {
         const val PLAYER_TABLE = "players_table"
         const val TEAM_PLAYERS_TABLE = "plantilla_table"
 
+        const val DESC = "DESC"
+
         // Screens
         const val TEMPORADAS_SCREEN = "Temporadas"
         const val MY_TEAMS_SCREEN = "Mis equipos"

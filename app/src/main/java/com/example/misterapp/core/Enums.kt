@@ -1,5 +1,10 @@
 package com.example.misterapp.core
 
+enum class Order(val description: String){
+    ASC("ASC"),
+    DESC("DESC")
+}
+
 enum class Categorys(val description: String) {
     CHUPETIN("Chupetín"),
     PREBENJAMIN("Pre-Benjamín"),

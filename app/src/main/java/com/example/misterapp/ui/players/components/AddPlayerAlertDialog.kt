@@ -37,12 +37,11 @@ import java.util.*
 
 @Composable
 fun AddPlayerAlertDialog(
-    show: Boolean,
     playersViewModel: PlayersViewModel = hiltViewModel(),
-    onDismiss: () -> Unit,
-    onPlayerAdded: (String, String, Int, LocalDate) -> Unit
 ) {
-    if (show) {
+    val showDialog: Boolean by playersViewModel.showDialog.observeAsState(false)
+
+    if (showDialog) {
         val isAddingPlayerEnable: Boolean by playersViewModel.isAddingPlayerEnable.observeAsState(initial = false)
         val playerName by playersViewModel.playerName.observeAsState(NO_VALUE)
         val email by playersViewModel.email.observeAsState(NO_VALUE)
@@ -68,7 +67,7 @@ fun AddPlayerAlertDialog(
         )
         //CALENDAR
         Dialog(
-            onDismissRequest = { onDismiss() }
+            onDismissRequest = { playersViewModel.onDialogClose() }
         ){
             Column(
                 Modifier
@@ -156,8 +155,8 @@ fun AddPlayerAlertDialog(
                 }                
                 Spacer(modifier = Modifier.size(4.dp))
                 Button(onClick = {
-                        onDismiss()
-                        onPlayerAdded(playerName, email, phone.toInt(), getBirthday(mybirthday))
+                        playersViewModel.onDialogClose()
+                        playersViewModel.onPlayerAdded(playerName, email, phone.toInt(), getBirthday(mybirthday))
                      }, modifier = Modifier
                     .padding(horizontal = 8.dp)
                     .fillMaxWidth(),

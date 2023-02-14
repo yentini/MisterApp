@@ -38,7 +38,7 @@ fun AddTeamPlayersAlertDialog(
             key2 = teamViewModel
         ) {
             lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
-                teamViewModel.uiPlayersState.collect { value = it }
+                teamViewModel.uiTeamPlayersState .collect { value = it }
             }
         }
 
@@ -64,8 +64,8 @@ fun AddTeamPlayersAlertDialog(
                     Column() {
                         LazyColumn() {
                             items(
-                                (uiPlayersState as PlayersUiState.Success).players.filter {
-                                    !(uiTeamPlayersState as PlayersUiState.Success).players.map { it.playerId }.contains(it.playerId)
+                                (uiPlayersState as PlayersUiState.Success).playerState.players.filter {
+                                    !(uiTeamPlayersState as PlayersUiState.Success).playerState.players.map { it.playerId }.contains(it.playerId)
                                   }
                                 ,
                                 key = { it.playerId }
@@ -79,7 +79,7 @@ fun AddTeamPlayersAlertDialog(
                                 onDismiss()
                                 onTeamPlayersAdded(
                                     teamId,
-                                    (uiPlayersState as PlayersUiState.Success).players.filter { it.isSelected.value }
+                                    (uiPlayersState as PlayersUiState.Success).playerState.players.filter { it.isSelected.value }
                                 )
                             }, modifier = Modifier
                                 .padding(horizontal = 8.dp)

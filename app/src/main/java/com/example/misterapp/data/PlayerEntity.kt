@@ -15,3 +15,8 @@ data class PlayerEntity(
     val phone: Int,
     val birthday: LocalDate
 )
+
+enum class PlayerEntityFields(val description: String){
+    NAME("name"),
+    BIRTHDAY("birthday")
+}

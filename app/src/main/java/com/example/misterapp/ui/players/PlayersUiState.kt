@@ -6,5 +6,5 @@ import com.example.misterapp.domain.model.TemporadaModel
 sealed interface PlayersUiState{
     object Loading: PlayersUiState
     data class Error(val throwable: Throwable): PlayersUiState
-    data class Success(val players: List<PlayerModel>): PlayersUiState
+    data class Success(var playerState: PlayersState): PlayersUiState
 }

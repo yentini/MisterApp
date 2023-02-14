@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.misterapp.core.Order
 import com.example.misterapp.domain.model.PlayerModel
 import com.example.misterapp.domain.model.TeamModel
 import com.example.misterapp.domain.model.TeamPlayerModel
@@ -11,6 +12,7 @@ import com.example.misterapp.domain.usecases.player.GetAllPlayersUseCase
 import com.example.misterapp.domain.usecases.team.GetTeamUseCase
 import com.example.misterapp.domain.usecases.teamplayers.AddPlayersToTeamUseCase
 import com.example.misterapp.domain.usecases.teamplayers.GetTeamPlayersUseCase
+import com.example.misterapp.ui.players.PlayersState
 import com.example.misterapp.ui.players.PlayersUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -36,21 +38,8 @@ class TeamViewModel @Inject constructor(
             TeamUiState.Loading
         )
 
-    var uiTeamPlayersState: StateFlow<PlayersUiState> = getTeamPlayersUseCase(-1).map(PlayersUiState::Success)
-        .catch { PlayersUiState.Error(it) }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            PlayersUiState.Loading
-        )
-
-    val uiPlayersState: StateFlow<PlayersUiState> = getAllPlayersUseCase().map(PlayersUiState::Success)
-        .catch { PlayersUiState.Error(it) }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            PlayersUiState.Loading
-        )
+    private val _uiTeamPlayersState: MutableStateFlow<PlayersUiState> = MutableStateFlow(PlayersUiState.Loading)
+    val uiTeamPlayersState: StateFlow<PlayersUiState> = _uiTeamPlayersState
 
     private val _teamModel = MutableLiveData<TeamModel>()
     val teamModel : LiveData<TeamModel> = _teamModel
@@ -71,13 +60,12 @@ class TeamViewModel @Inject constructor(
     }
 
     fun refreshTeamPlayers(teamId: Int){
-        uiTeamPlayersState  = getTeamPlayersUseCase(teamId).map(PlayersUiState::Success)
-            .catch { PlayersUiState.Error(it) }
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(5000),
-                PlayersUiState.Loading
-            )
+        viewModelScope.launch {
+            getTeamPlayersUseCase(teamId)
+                .collect { players ->
+                    _uiTeamPlayersState.value = PlayersUiState.Success(PlayersState(players = players))
+                }
+        }
     }
 
     fun refreshTeam(teamId: Int){

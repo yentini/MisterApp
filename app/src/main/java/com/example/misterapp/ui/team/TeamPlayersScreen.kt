@@ -53,7 +53,7 @@ fun TeamPlayersScreen(
                 },
                 content = {
                     TeamPlayersContent(
-                        (uiTeamPlayersState as PlayersUiState.Success).players
+                        (uiTeamPlayersState as PlayersUiState.Success).playerState.players
                     )
                     AddTeamPlayersAlertDialog(
                         onDismiss = { teamViewModel.onDialogClose() },

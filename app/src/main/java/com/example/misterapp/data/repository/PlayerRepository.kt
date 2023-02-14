@@ -1,5 +1,6 @@
 package com.example.misterapp.data.repository
 
+import com.example.misterapp.core.Order
 import com.example.misterapp.data.PlayerEntity
 import com.example.misterapp.data.TemporadaEntity
 import com.example.misterapp.domain.model.PlayerModel
@@ -15,12 +16,31 @@ import javax.inject.Singleton
 class PlayerRepository @Inject constructor(private val playerDao: PlayerDao) {
 
     val players: Flow<List<PlayerModel>> =
-        playerDao.getAll().map { items -> items.map { PlayerModel(it.playerId,
-                                                                it.name,
-                                                                it.email,
-                                                                it.phone,
-                                                                it.birthday
-                                                                )}}
+        playerDao.getAll().map {
+                items -> items.map { PlayerModel(it.playerId,
+                                                it.name,
+                                                it.email,
+                                                it.phone,
+                                                it.birthday
+                                                )}}
+
+    val playersOrderedByNameAsc: Flow<List<PlayerModel>> =
+        playerDao.getAllSortedByNameAsc().map {
+                items -> items.map { PlayerModel(it.playerId,
+                                                it.name,
+                                                it.email,
+                                                it.phone,
+                                                it.birthday
+        )}}
+
+    val playersOrderedByNameDesc: Flow<List<PlayerModel>> =
+        playerDao.getAllSortedByNameDesc().map {
+                items -> items.map { PlayerModel(it.playerId,
+                                                it.name,
+                                                it.email,
+                                                it.phone,
+                                                it.birthday
+        )}}
 
     suspend fun add(player: PlayerModel){
         playerDao.addPlayer(player.toData())
