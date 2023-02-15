@@ -51,7 +51,8 @@ fun PlayerScreen(
                 },
                 content = { padding ->
                     OnePlayerContent(
-                        (uiOnePlayerState as PlayerUiState.Success).player
+                        (uiOnePlayerState as PlayerUiState.Success).player,
+                        navigateBack = navigateBack
                     )
                 },
                 floatingActionButton = {}/*{

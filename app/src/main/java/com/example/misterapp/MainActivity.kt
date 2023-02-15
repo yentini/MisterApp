@@ -21,7 +21,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MisterAppTheme {
-                // A surface container using the 'background' color from the theme
                 NavGraph(navController = rememberNavController())
             }
         }

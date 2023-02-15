@@ -31,7 +31,7 @@ fun TemporadaCard(
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp),
+            .padding(4.dp),
         elevation = 4.dp,
         onClick ={
             navigateToMyTeamsScreen(temporadaModel.id)
@@ -40,7 +40,7 @@ fun TemporadaCard(
         Row(
             Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(4.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {

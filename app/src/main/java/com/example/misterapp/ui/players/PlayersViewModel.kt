@@ -1,22 +1,16 @@
 package com.example.misterapp.ui.players
 
 import android.util.Patterns
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.misterapp.core.Order
 import com.example.misterapp.domain.model.PlayerModel
-import com.example.misterapp.domain.usecases.player.AddPlayerUseCase
-import com.example.misterapp.domain.usecases.player.GetAllPlayersUseCase
-import com.example.misterapp.domain.usecases.player.GetAllPlayersUseCaseOrderByName
-import com.example.misterapp.domain.usecases.player.GetPlayerUseCase
+import com.example.misterapp.domain.usecases.player.*
 import com.example.misterapp.domain.util.PlayerOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -24,10 +18,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlayersViewModel  @Inject constructor(
-    private val getAllPlayersUseCase: GetAllPlayersUseCase,
-    private val getAllPlayersUseCaseOrderByName: GetAllPlayersUseCaseOrderByName,
+    private val getAllPlayersFilterUseCase: GetAllPlayersFilterUseCase,
     private val getPlayerUseCase: GetPlayerUseCase,
-    private val addPlayerUseCase: AddPlayerUseCase
+    private val addPlayerUseCase: AddPlayerUseCase,
+    private val deletePlayerUseCase: DeletePlayerUseCase,
+    private val updatePlayerUseCase: UpdatePlayerUseCase
 ): ViewModel() {
 
     private val _uiState: MutableStateFlow<PlayersState> = MutableStateFlow(PlayersState())
@@ -62,13 +57,16 @@ class PlayersViewModel  @Inject constructor(
                     isOrderSectionVisible = !_uiState.value.isOrderSectionVisible
                 )
             }
-            /*is PlayersEvent.DeletePlayer -> {
+            is PlayersEvent.DeletePlayer -> {
                 viewModelScope.launch {
-                    noteUseCases.deleteNote(event.note)
-                    recentlyDeletedNote = event.note
+                    deletePlayerUseCase(event.player)
                 }
             }
-            */
+            is PlayersEvent.UpdatePlayer -> {
+                viewModelScope.launch {
+                    updatePlayerUseCase(event.player)
+                }
+            }
         }
     }
 
@@ -84,7 +82,7 @@ class PlayersViewModel  @Inject constructor(
 
     private fun getPlayers(playerOrder: PlayerOrder){
         viewModelScope.launch {
-            getAllPlayersUseCaseOrderByName(playerOrder)
+            getAllPlayersFilterUseCase(playerOrder)
                 .collect { players ->
                     _uiState.value =  _uiState.value.copy(
                         players = players,

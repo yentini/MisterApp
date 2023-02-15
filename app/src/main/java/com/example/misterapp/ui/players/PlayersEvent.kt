@@ -6,5 +6,6 @@ import com.example.misterapp.domain.util.PlayerOrder
 sealed class PlayersEvent {
     data class Order(val playerOrder: PlayerOrder): PlayersEvent()
     data class DeletePlayer(val player: PlayerModel): PlayersEvent()
+    data class UpdatePlayer(val player: PlayerModel): PlayersEvent()
     object ToggleOrderSection: PlayersEvent()
 }

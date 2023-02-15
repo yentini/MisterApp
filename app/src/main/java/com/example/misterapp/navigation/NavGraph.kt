@@ -29,16 +29,12 @@ fun NavGraph(
             route = TemporadasScreen.route
         ){
             TemporadasScreen(
+                navController = navController,
                 navigateToMyTeamsScreen = {
                     temporadaId ->
                         navController.navigate(
                             "${MyTeamsScreen.route}/${temporadaId}"
                         )
-                },
-                navigateToPlayers = {
-                    navController.navigate(
-                        "${PlayersScreen.route}"
-                    )
                 }
             )
         }
@@ -46,6 +42,7 @@ fun NavGraph(
             route = PlayersScreen.route
         ){
             PlayersScreen(
+                navController = navController,
                 navigateToPlayerScreen = {
                         playerId ->
                             navController.navigate(

@@ -34,6 +34,7 @@ class Constants {
         const val DISMISS = "Cancelar"
         const val DELETE = "Eliminar"
         const val EDIT = "Editar"
+        const val UPDATE = "Actualizar"
 
         // Labels
         const val TEMPORADA = "Temporada"
