@@ -18,7 +18,6 @@ import com.example.misterapp.ui.my_teams.TeamsViewModel
 @Composable
 fun MyTeamsContent(
     teams: List<TeamModel>,
-    teamsViewModel: TeamsViewModel,
     navigateToMyTeamScreen: (teamId: Int) -> Unit
 ){
     Column() {

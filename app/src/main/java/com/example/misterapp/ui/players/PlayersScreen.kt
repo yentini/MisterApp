@@ -35,7 +35,8 @@ fun PlayersScreen(
         content = { padding ->
             PlayersContent(
                 navigateToPlayerScreen = navigateToPlayerScreen,
-                scaffoldState = scaffoldState
+                scaffoldState = scaffoldState,
+                padding = padding
             )
             AddPlayerAlertDialog()
         },

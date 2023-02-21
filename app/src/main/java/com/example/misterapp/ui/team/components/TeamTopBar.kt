@@ -1,6 +1,7 @@
 package com.example.misterapp.ui.team.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Icon
@@ -10,8 +11,15 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import com.example.misterapp.core.ActionItem
+import com.example.misterapp.core.Constants
 import com.example.misterapp.domain.model.TeamModel
+import com.example.misterapp.ui.generic_components.OverflowMenuAction
 
 @Composable
 fun TeamTopBar (
@@ -20,14 +28,26 @@ fun TeamTopBar (
 ){
     TopAppBar (
         title = {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-                Text(team.category)
-                Text(team.level)
-                Text(team.year.toString())
-                Text(team.club)
+            Column() {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        team.club.uppercase().plus(" '").plus(team.level).uppercase().plus("'"),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(team.category.plus(" ".plus(team.year.toString())),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Light
+                    )
+                }
             }
         },
         navigationIcon = {
@@ -37,6 +57,19 @@ fun TeamTopBar (
                     contentDescription = null
                 )
             }
+        },actions = {
+            val (isExpanded, setExpanded) = remember { mutableStateOf(false) }
+            OverflowMenuAction(
+                isExpanded,
+                setExpanded,
+                listOf(
+                    ActionItem(
+                        name = Constants.EDIT,
+                        action = {},
+                        order = 1
+                    )
+                )
+            )
         }
     )
 }

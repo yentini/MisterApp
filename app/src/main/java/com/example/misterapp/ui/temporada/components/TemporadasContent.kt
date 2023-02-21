@@ -13,11 +13,13 @@ import com.example.misterapp.ui.temporada.TemporadasViewModel
 fun TemporadasContent(
     temporadaActualFavorite: TemporadaModel?,
     temporadas: List<TemporadaModel>,
-    navigateToMyTeamsScreen: (temporadaId: Int) -> Unit
+    navigateToMyTeamsScreen: (temporadaId: Int) -> Unit,
+    padding: PaddingValues
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(padding)
             .padding(8.dp)
     ) {
         Spacer(modifier = Modifier.height(8.dp))

@@ -5,10 +5,10 @@ import com.example.misterapp.domain.model.TemporadaModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetNumTemporadaUseCase @Inject constructor(
+class GetTemporadaFavoriteUseCase @Inject constructor(
     private val temporadaRepository: TemporadaRepository
 ){
-    operator fun invoke(): Flow<Int> {
-        return temporadaRepository.getNumTemporadas()
+    operator fun invoke(): Flow<TemporadaModel> {
+        return temporadaRepository.getTemporadaFavorite()
     }
 }

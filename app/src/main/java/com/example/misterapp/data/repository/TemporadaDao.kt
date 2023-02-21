@@ -12,10 +12,13 @@ interface TemporadaDao {
     fun getTemporadas(): Flow<List<TemporadaEntity>>
 
     @Query("SELECT * FROM $TEMPORADAS_TABLE WHERE id = :id")
-    fun getTemporada(id: Int): TemporadaEntity
+    fun getTemporada(id: Int): Flow<TemporadaEntity>
 
     @Query("SELECT count(*) FROM $TEMPORADAS_TABLE")
-    fun getNumTemporadas(): Int
+    fun getNumTemporadas(): Flow<Int>
+
+    @Query("SELECT * FROM $TEMPORADAS_TABLE WHERE favorite = 1")
+    fun getTemporada(): Flow<TemporadaEntity>
 
     @Insert
     suspend fun addTemporada(temporada: TemporadaEntity)

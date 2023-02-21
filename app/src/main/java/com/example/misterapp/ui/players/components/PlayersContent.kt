@@ -27,7 +27,8 @@ import kotlinx.coroutines.launch
 fun PlayersContent(
     navigateToPlayerScreen: (playerId: Int) -> Unit,
     playersViewModel: PlayersViewModel= hiltViewModel(),
-    scaffoldState: ScaffoldState
+    scaffoldState: ScaffoldState,
+    padding: PaddingValues
 ) {
     val scope = rememberCoroutineScope()
     val lifecycle = LocalLifecycleOwner.current.lifecycle
@@ -43,7 +44,7 @@ fun PlayersContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp)
+            .padding(padding).padding(8.dp)
     ) {
         AnimatedVisibility(
             visible = state.isOrderSectionVisible,

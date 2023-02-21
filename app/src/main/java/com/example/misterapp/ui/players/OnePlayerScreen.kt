@@ -55,11 +55,7 @@ fun PlayerScreen(
                         navigateBack = navigateBack
                     )
                 },
-                floatingActionButton = {}/*{
-                    AddPlayerFloatingActionButton(
-                        playersViewModel
-                    )
-                }*/
+                floatingActionButton = {}
             )
         }
     }

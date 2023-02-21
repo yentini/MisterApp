@@ -13,6 +13,7 @@ class Constants {
 
         // Screens
         const val TEMPORADAS_SCREEN = "Temporadas"
+        const val MODIFY_TEMPORADA_SCREEN = "Temporada"
         const val MY_TEAMS_SCREEN = "Mis equipos"
         const val TEAM_SCREEN = "Equipo"
         const val PLAYERS_SCREEN = "Jugadores"

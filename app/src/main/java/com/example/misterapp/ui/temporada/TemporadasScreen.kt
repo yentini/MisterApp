@@ -56,7 +56,8 @@ fun TemporadasScreen(
                     TemporadasContent(
                         (uiState as TemporadasUiState.Success).temporadas.filter { it.favorite == true }.firstOrNull(),
                         (uiState as TemporadasUiState.Success).temporadas,
-                        navigateToMyTeamsScreen = navigateToMyTeamsScreen
+                        navigateToMyTeamsScreen = navigateToMyTeamsScreen,
+                        padding = padding
                     )
                     AddTemporadaAlertDialog(
                         show = showDialog,

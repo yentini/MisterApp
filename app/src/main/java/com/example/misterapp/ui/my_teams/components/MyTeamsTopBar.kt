@@ -29,17 +29,15 @@ fun MyTeamsTopBar (
     temporada: TemporadaModel,
     navigateBack: () -> Unit,
     navigateTemporadas: () -> Unit,
-    deleteTemporada: (TemporadaModel) -> Unit
+    deleteTemporada: (TemporadaModel) -> Unit,
+    navigateModifyTemporada: () -> Unit
 ){
-    LaunchedEffect(Unit){
-        temporadasViewModel.getNumTemporadas()
-    }
-
     val options = myTeamsOptions(
         navigateTemporadas,
         deleteTemporada,
         temporada,
-        temporadasViewModel.numTemporadas
+        temporadasViewModel.numTemporadas.value,
+        navigateModifyTemporada
     )
 
     TopAppBar (
@@ -69,14 +67,14 @@ private fun myTeamsOptions(
     navigateTemporadas: () -> Unit,
     deleteTemporada: (TemporadaModel) -> Unit,
     temporada: TemporadaModel,
-    numTemporadas: Int
+    numTemporadas: Int,
+    navigateModifyTemporada: () -> Unit
 ): List<ActionItem>{
     return listOf(
         ActionItem(
             name = EDIT,
             action = {
-                // deleteTemporada(temporada)
-                // navigateTemporadas()
+                navigateModifyTemporada()
             },
             order = 1
         ),

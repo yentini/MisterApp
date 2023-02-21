@@ -68,7 +68,7 @@ fun AddTemporadaAlertDialog(
                 Spacer(modifier = Modifier.size(4.dp))
                 Button(onClick = {
                     onDismiss()
-                    onTemporadaAdded(myTemporada, temporadasViewModel.numTemporadas == 0)
+                    onTemporadaAdded(myTemporada, temporadasViewModel.numTemporadas.value == 0)
                     myTemporada = ""
                 }, modifier = Modifier
                         .padding(horizontal =  8.dp)

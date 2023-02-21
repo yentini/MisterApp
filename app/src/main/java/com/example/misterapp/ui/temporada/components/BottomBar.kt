@@ -20,6 +20,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.misterapp.R
+import com.example.misterapp.core.Constants.Companion.MY_TEAMS_SCREEN
 import com.example.misterapp.core.Constants.Companion.PLAYERS_SCREEN
 import com.example.misterapp.core.Constants.Companion.TEMPORADAS_SCREEN
 import com.example.misterapp.navigation.Screen
@@ -27,9 +28,9 @@ import com.example.misterapp.ui.temporada.TemporadasViewModel
 
 @Composable
 fun BottomBar(
+    temporadasViewModel: TemporadasViewModel = hiltViewModel(),
     navController: NavController
 ) {
-
     BottomNavigation(elevation = 10.dp) {
 
         val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -57,7 +58,9 @@ fun BottomBar(
 
         BottomNavigationItem(icon = {
             Icon(
-                imageVector = Icons.Default.Favorite,""
+                painter = painterResource(id = R.drawable.temporadas),
+                modifier = Modifier.size(24.dp),
+                contentDescription = ""
             )
         },
             label = { Text(text = TEMPORADAS_SCREEN) },
@@ -74,12 +77,25 @@ fun BottomBar(
             })
 
         BottomNavigationItem(icon = {
-            Icon(imageVector = Icons.Default.Person,"")
+            Icon(
+                painter = painterResource(id = R.drawable.misequipos),
+                modifier = Modifier.size(24.dp),
+                contentDescription = ""
+            )
         },
-            label = { Text(text = "Profile") },
-            selected = false,
+            label = { Text(text = MY_TEAMS_SCREEN) },
+            selected = currentRoute?.contains(Screen.MyTeamsScreen.route) ?: false,
             onClick = {
-
+                if(!currentRoute!!.contains(Screen.MyTeamsScreen.route) && temporadasViewModel.temporadaFavorite.value.id != -1){
+                    /*    navController.graph?.startDestinationRoute?.let {
+                            navController.popBackStack(it, true)
+                        }*/
+                    navController.navigate(
+                        "${Screen.MyTeamsScreen.route}/${temporadasViewModel.temporadaFavorite.value.id}"
+                    ){
+                        launchSingleTop = true
+                    }
+                }
             })
     }
 }

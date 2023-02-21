@@ -31,7 +31,9 @@ class TeamsViewModel @Inject constructor(
         .catch { Error(it) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TeamsUiState.Loading)
 
-    var temporada by mutableStateOf(TemporadaModel(name = NO_VALUE, favorite = false))
+    private val _temporada: MutableLiveData<TemporadaModel> = MutableLiveData(TemporadaModel(name = NO_VALUE, favorite = false))
+    val temporada: LiveData<TemporadaModel> = _temporada
+
     private val _showDialog = MutableLiveData<Boolean>()
     val showDialog: LiveData<Boolean> = _showDialog
 
@@ -65,38 +67,13 @@ class TeamsViewModel @Inject constructor(
 
     fun getTemporada(id: Int){
         viewModelScope.launch(Dispatchers.IO) {
-            temporada = getTemporadaUseCase(id)
+           getTemporadaUseCase(id).collect {temporada ->
+               _temporada.postValue(_temporada.value!!.copy(
+                   id = temporada.id,
+                   name = temporada.name,
+                   favorite = temporada.favorite
+               ))
+            }
         }
     }
-
-    fun updateTemporadaName(name: String){
-        temporada = temporada.copy(
-            name = name
-        )
-    }
-/*
-    fun deleteTemporada(temporada: TemporadaModel){
-        viewModelScope.launch(Dispatchers.IO) {
-            deleteTemporadaUseCase(temporada)
-        }
-    }
-
-    fun updateTemporadaName(name: String){
-        temporada = temporada.copy(
-            name = name
-        )
-    }
-
-    fun updateTemporada(temporada: TemporadaModel){
-        viewModelScope.launch(Dispatchers.IO) {
-            updateTemporadaUseCase(temporada)
-        }
-    }
-
-    fun getTeam(teamId: Int){
-        viewModelScope.launch(Dispatchers.IO) {
-            temporada = getTemporadaUseCase(teamId)
-        }
-    }*/
-
 }

@@ -13,9 +13,10 @@ import com.example.misterapp.navigation.Screen.*
 import com.example.misterapp.ui.my_teams.MyTeamsScreen
 import com.example.misterapp.ui.players.PlayerScreen
 import com.example.misterapp.ui.players.PlayersScreen
-import com.example.misterapp.ui.team.TeamScreen
-import com.example.misterapp.ui.temporada.TemporadasScreen
 import com.example.misterapp.ui.team.TeamPlayersScreen
+import com.example.misterapp.ui.team.TeamScreen
+import com.example.misterapp.ui.temporada.ModifyTemporadaScreen
+import com.example.misterapp.ui.temporada.TemporadasScreen
 
 @Composable
 fun NavGraph(
@@ -35,6 +36,23 @@ fun NavGraph(
                         navController.navigate(
                             "${MyTeamsScreen.route}/${temporadaId}"
                         )
+                }
+            )
+        }
+        composable(
+            route = "${ModifyTemporadaScreen.route}/{$TEMPORADA_ID}",
+            arguments = listOf(
+                navArgument(TEMPORADA_ID){
+                    type = NavType.IntType
+                }
+            )
+        ){
+            navBackStackEntry ->
+                val temporadaId = navBackStackEntry.arguments?.getInt(TEMPORADA_ID) ?: 0
+            ModifyTemporadaScreen(
+                temporadaId = temporadaId,
+                navigateBack = {
+                    navController.popBackStack()
                 }
             )
         }
@@ -82,6 +100,7 @@ fun NavGraph(
             navBackStackEntry ->
                 val temporadaId = navBackStackEntry.arguments?.getInt(TEMPORADA_ID) ?: 0
             MyTeamsScreen(
+                navController = navController,
                 temporadaId = temporadaId,
                 navigateBack = {
                     navController.popBackStack()
@@ -90,6 +109,11 @@ fun NavGraph(
                         teamId -> navController.navigate(
                                 "${TeamScreen.route}/${teamId}"
                                 )
+                },
+                navigateModifyTemporada = {
+                            navController.navigate(
+                                "${ModifyTemporadaScreen.route}/${temporadaId}"
+                            )
                 }
             )
         }
