@@ -17,12 +17,6 @@ interface PlayerDao {
     @Query("SELECT * FROM $PLAYER_TABLE ORDER BY playerId ASC")
     fun getAll(): Flow<List<PlayerEntity>>
 
-    @Query("SELECT * FROM ${Constants.PLAYER_TABLE} ORDER BY name ASC")
-    fun getAllSortedByNameAsc(): Flow<List<PlayerEntity>>
-
-    @Query("SELECT * FROM ${Constants.PLAYER_TABLE} ORDER BY name DESC")
-    fun getAllSortedByNameDesc(): Flow<List<PlayerEntity>>
-
     @Insert
     suspend fun addPlayer(player: PlayerEntity)
 

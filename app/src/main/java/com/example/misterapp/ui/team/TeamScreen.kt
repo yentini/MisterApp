@@ -18,7 +18,8 @@ fun TeamScreen(
     teamViewModel: TeamViewModel = hiltViewModel(),
     teamId: Int,
     navigateBack: () -> Unit,
-    navigateToTeamPlayersScreen: (teamId: Int) -> Unit
+    navigateToTeamPlayersScreen: (teamId: Int) -> Unit,
+    navigateToMatchesScreen: (teamId: Int) -> Unit
 ){
     LaunchedEffect(Unit){
         teamViewModel.refreshTeam(teamId)
@@ -51,7 +52,8 @@ fun TeamScreen(
                 content = {
                     TeamContent(
                         (uiTeamState as TeamUiState.Success).team,
-                        navigateToTeamPlayersScreen= navigateToTeamPlayersScreen
+                        navigateToTeamPlayersScreen = navigateToTeamPlayersScreen,
+                        navigateToMatchesScreen = navigateToMatchesScreen
                     )
                   },
                 floatingActionButton = {}

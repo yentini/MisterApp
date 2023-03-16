@@ -1,5 +1,7 @@
 package com.example.misterapp.core
 
+import com.example.misterapp.domain.util.MatchOrder
+
 class Constants {
 
     companion object{
@@ -8,6 +10,7 @@ class Constants {
         const val TEAM_TABLE = "teams_table"
         const val PLAYER_TABLE = "players_table"
         const val TEAM_PLAYERS_TABLE = "plantilla_table"
+        const val MATCHES_TABLE = "matches_table"
 
         const val DESC = "DESC"
 
@@ -19,6 +22,7 @@ class Constants {
         const val PLAYERS_SCREEN = "Jugadores"
         const val PLAYER_SCREEN = "Jugador"
         const val TEAM_PLAYERS_SCREEN = "Plantilla"
+        const val MATCHES_SCREEN = "Partidos"
 
         // Arguments
         const val TEMPORADA_ID = "id"
@@ -29,6 +33,7 @@ class Constants {
         const val ADD_TEMPORADA = "Nueva temporada"
         const val ADD_TEAM = "Nuevo equipo"
         const val ADD_PLAYER = "Nuevo jugador"
+        const val ADD_MATCH = "Nuevo partido"
 
         // Buttons
         const val ADD = "Añadir"
@@ -50,6 +55,10 @@ class Constants {
         const val EMAIL_EXAMPLE = "texto@dominio.xxx"
         const val PHONE = "Teléfono"
         const val TEAM_PLAYERS = "Plantilla"
+        const val MATCHES = "Partidos"
+        const val OPPONENT = "Rival"
+        const val TOURNAMENT = "Torneo"
+        const val DATE = "Fecha"
 
         // Placeholders
         const val TEMPORADA_YEAR = "Temporada 22-23"

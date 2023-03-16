@@ -38,7 +38,7 @@ fun AddTeamPlayersAlertDialog(
             key2 = teamViewModel
         ) {
             lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
-                teamViewModel.uiTeamPlayersState .collect { value = it }
+                teamViewModel.uiPlayersState.collect { value = it }
             }
         }
 

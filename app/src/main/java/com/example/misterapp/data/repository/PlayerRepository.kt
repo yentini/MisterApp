@@ -24,24 +24,6 @@ class PlayerRepository @Inject constructor(private val playerDao: PlayerDao) {
                                                 it.birthday
                                                 )}}
 
-    val playersOrderedByNameAsc: Flow<List<PlayerModel>> =
-        playerDao.getAllSortedByNameAsc().map {
-                items -> items.map { PlayerModel(it.playerId,
-                                                it.name,
-                                                it.email,
-                                                it.phone,
-                                                it.birthday
-        )}}
-
-    val playersOrderedByNameDesc: Flow<List<PlayerModel>> =
-        playerDao.getAllSortedByNameDesc().map {
-                items -> items.map { PlayerModel(it.playerId,
-                                                it.name,
-                                                it.email,
-                                                it.phone,
-                                                it.birthday
-        )}}
-
     suspend fun add(player: PlayerModel){
         playerDao.addPlayer(player.toData())
     }

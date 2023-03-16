@@ -4,13 +4,10 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.misterapp.core.Converters
-import com.example.misterapp.data.repository.PlayerDao
-import com.example.misterapp.data.repository.TeamDao
-import com.example.misterapp.data.repository.TeamPlayersDao
-import com.example.misterapp.data.repository.TemporadaDao
+import com.example.misterapp.data.repository.*
 
 @Database(
-    entities = [TemporadaEntity::class, TeamEntity::class, PlayerEntity::class, TeamPlayersEntity::class],
+    entities = [TemporadaEntity::class, TeamEntity::class, PlayerEntity::class, TeamPlayersEntity::class, MatchEntity::class],
     version = 1,
     exportSchema = false
 )
@@ -20,4 +17,5 @@ abstract class MisterAppDatabase: RoomDatabase() {
     abstract fun teamDao(): TeamDao
     abstract fun playerDao(): PlayerDao
     abstract fun teamPlayersDao(): TeamPlayersDao
+    abstract fun matchDao(): MatchDao
 }

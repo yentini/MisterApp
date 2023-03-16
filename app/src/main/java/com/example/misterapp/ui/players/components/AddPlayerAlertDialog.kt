@@ -47,7 +47,7 @@ fun AddPlayerAlertDialog(
         val email by playersViewModel.email.observeAsState(NO_VALUE)
         val phone by playersViewModel.phone.observeAsState(NO_VALUE)
         val birthday by playersViewModel.birthday.observeAsState(NO_VALUE)
-        var mybirthday by rememberSaveable { mutableStateOf(NO_VALUE) }
+        var mybirthday by rememberSaveable { mutableStateOf(LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))) }
         val mContext = LocalContext.current
         //CALENDAR
         // Initializing a Calendar

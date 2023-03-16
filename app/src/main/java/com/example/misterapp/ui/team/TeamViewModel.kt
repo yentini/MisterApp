@@ -38,6 +38,15 @@ class TeamViewModel @Inject constructor(
             TeamUiState.Loading
         )
 
+
+    val uiPlayersState: StateFlow<PlayersUiState> = getAllPlayersUseCase().map(PlayersUiState::Success)
+        .catch { PlayersUiState.Error(it) }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            PlayersUiState.Loading
+        )
+
     private val _uiTeamPlayersState: MutableStateFlow<PlayersUiState> = MutableStateFlow(PlayersUiState.Loading)
     val uiTeamPlayersState: StateFlow<PlayersUiState> = _uiTeamPlayersState
 

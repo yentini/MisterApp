@@ -1,5 +1,6 @@
 package com.example.misterapp.navigation
 
+import com.example.misterapp.core.Constants.Companion.MATCHES_SCREEN
 import com.example.misterapp.core.Constants.Companion.MODIFY_TEMPORADA_SCREEN
 import com.example.misterapp.core.Constants.Companion.MY_TEAMS_SCREEN
 import com.example.misterapp.core.Constants.Companion.PLAYERS_SCREEN
@@ -16,4 +17,5 @@ sealed class Screen(val route: String){
     object PlayersScreen: Screen(PLAYERS_SCREEN)
     object PlayerScreen: Screen(PLAYER_SCREEN)
     object TeamPlayersScreen: Screen(TEAM_PLAYERS_SCREEN)
+    object MatchesScreen: Screen(MATCHES_SCREEN)
 }

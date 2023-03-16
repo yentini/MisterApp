@@ -1,25 +1,25 @@
-package com.example.misterapp.ui.players.components
+package com.example.misterapp.ui.matches.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.unit.dp
-import com.example.misterapp.domain.model.PlayerModel
-import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.example.misterapp.core.Local
+import com.example.misterapp.domain.model.MatchModel
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PlayerCard(
-    playerModel: PlayerModel,
-    navigateToPlayersScreen: (playerId: Int) -> Unit,
+fun MatchCard(
+    matchModel: MatchModel,
+    //navigateToPlayersScreen: (playerId: Int) -> Unit,
     onDeleteClick: () -> Unit
 ) {
     Card(
@@ -28,30 +28,35 @@ fun PlayerCard(
             .fillMaxWidth()
             .padding(4.dp),
         elevation = 4.dp,
-        onClick ={
-            navigateToPlayersScreen(playerModel.playerId)
+        onClick = {
+            //navigateToPlayersScreen(playerModel.playerId)
         }
     ) {
         Row(
             Modifier
                 .fillMaxWidth()
                 .padding(4.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                playerModel.name,
-                modifier = Modifier
-                    .weight(1f)
+                matchModel.date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
             )
             Text(
-                text=playerModel.birthday.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+                matchModel.tournament
+            )
+            Text(
+                Local.valueOf(matchModel.local.toString().uppercase()).description
+            )
+            Text(
+                matchModel.opponent
             )
             IconButton(
                 onClick = onDeleteClick
             ) {
                 Icon(
                     imageVector = Icons.Default.Delete,
-                    contentDescription = "Delete player",
+                    contentDescription = "Delete match",
                     tint = MaterialTheme.colors.onSurface
                 )
             }

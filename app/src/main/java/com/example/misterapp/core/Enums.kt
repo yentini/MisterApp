@@ -5,6 +5,11 @@ enum class Order(val description: String){
     DESC("DESC")
 }
 
+enum class Local(val description: String){
+    TRUE("Local"),
+    FALSE("Visitante")
+}
+
 enum class Categorys(val description: String) {
     CHUPETIN("Chupetín"),
     PREBENJAMIN("Pre-Benjamín"),

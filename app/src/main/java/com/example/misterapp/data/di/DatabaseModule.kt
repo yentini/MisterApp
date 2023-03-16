@@ -4,10 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.misterapp.core.Constants.Companion.TEMPORADAS_TABLE
 import com.example.misterapp.data.MisterAppDatabase
-import com.example.misterapp.data.repository.PlayerDao
-import com.example.misterapp.data.repository.TeamDao
-import com.example.misterapp.data.repository.TeamPlayersDao
-import com.example.misterapp.data.repository.TemporadaDao
+import com.example.misterapp.data.repository.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,6 +33,11 @@ class DatabaseModule {
     @Provides
     fun providePlayerDao(misterAppDatabase: MisterAppDatabase): PlayerDao{
         return misterAppDatabase.playerDao()
+    }
+
+    @Provides
+    fun provideMatchDao(misterAppDatabase: MisterAppDatabase): MatchDao {
+        return misterAppDatabase.matchDao()
     }
 
     @Provides
