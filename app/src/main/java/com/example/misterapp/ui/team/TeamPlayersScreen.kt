@@ -56,13 +56,15 @@ fun TeamPlayersScreen(
                         (uiTeamPlayersState as PlayersUiState.Success).playerState.players
                     )
                     AddTeamPlayersAlertDialog(
+                        teamViewModel,
                         onDismiss = { teamViewModel.onDialogClose() },
                         teamId = teamId,
                         onTeamPlayersAdded = {
                                 teamId: Int, players: List<PlayerModel> ->
                                     teamViewModel.onTeamPlayersAdded(teamId, players)
                         },
-                        show = showDialog
+                        show = showDialog,
+                        teamPlayers = (uiTeamPlayersState as PlayersUiState.Success).playerState.players
                     )
                 },
                 floatingActionButton = {

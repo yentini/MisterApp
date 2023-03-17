@@ -8,6 +8,7 @@ import com.example.misterapp.core.Order
 import com.example.misterapp.domain.model.PlayerModel
 import com.example.misterapp.domain.model.TeamModel
 import com.example.misterapp.domain.model.TeamPlayerModel
+import com.example.misterapp.domain.usecases.player.GetAllPlayersFilterUseCase
 import com.example.misterapp.domain.usecases.player.GetAllPlayersUseCase
 import com.example.misterapp.domain.usecases.team.GetTeamUseCase
 import com.example.misterapp.domain.usecases.teamplayers.AddPlayersToTeamUseCase
@@ -26,25 +27,17 @@ class TeamViewModel @Inject constructor(
     private val getTeamUseCase: GetTeamUseCase,
     private val getTeamPlayersUseCase: GetTeamPlayersUseCase,
     private val getAllPlayersUseCase: GetAllPlayersUseCase,
-    private val addPlayersToTeamUseCase: AddPlayersToTeamUseCase
-
+    private val addPlayersToTeamUseCase: AddPlayersToTeamUseCase,
+    private val getAllPlayersFilterUseCase: GetAllPlayersFilterUseCase
 ): ViewModel() {
-
+    private val _allPlayers = getAllPlayersFilterUseCase()
+    val allPlayers: Flow<List<PlayerModel>> = _allPlayers
     var uiTeamState: StateFlow<TeamUiState> = getTeamUseCase(-1).map(TeamUiState::Success)
         .catch { TeamUiState.Error(it) }
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
             TeamUiState.Loading
-        )
-
-
-    val uiPlayersState: StateFlow<PlayersUiState> = getAllPlayersUseCase().map(PlayersUiState::Success)
-        .catch { PlayersUiState.Error(it) }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            PlayersUiState.Loading
         )
 
     private val _uiTeamPlayersState: MutableStateFlow<PlayersUiState> = MutableStateFlow(PlayersUiState.Loading)
@@ -91,7 +84,6 @@ class TeamViewModel @Inject constructor(
         teamId: Int,
         players: List<PlayerModel>
     ){
-        var teamPlayerModel: TeamPlayerModel
         var teamPlayers: List<TeamPlayerModel> = players.map { TeamPlayerModel(it.playerId, teamId, it.number) }
         viewModelScope.launch(Dispatchers.IO) {
             addPlayersToTeamUseCase(teamPlayers)

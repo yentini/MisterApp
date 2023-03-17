@@ -27,18 +27,16 @@ import com.example.misterapp.ui.players.components.PlayerCard
 
 @Composable
 fun TeamPlayersContent(
-    teams: List<PlayerModel>
+    players: List<PlayerModel>
 ){
-
-        LazyColumn() {
-            items(
-                teams,
-                key = { it.playerId }
-            ) {
-                    player -> TeamPlayerCard(
-                        player
-                    )
-            }
+    LazyColumn() {
+        items(
+            players,
+            key = { it.playerId }
+        ) {
+                player -> TeamPlayerCard(
+                    player
+                )
         }
-
+    }
 }

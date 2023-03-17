@@ -22,73 +22,43 @@ import java.util.*
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AddTeamPlayersAlertDialog(
-    teamViewModel: TeamViewModel = hiltViewModel(),
+    teamViewModel: TeamViewModel,
     teamId: Int,
     show: Boolean,
     onDismiss: () -> Unit,
     onTeamPlayersAdded: (Int, List<PlayerModel>) -> Unit,
+    teamPlayers: List<PlayerModel>
+) {
 
-    ) {
+    val allPlayers by teamViewModel.allPlayers.collectAsState(emptyList())
 
-    if (show) {
-        val lifecycle = LocalLifecycleOwner.current.lifecycle
-        val uiPlayersState by produceState<PlayersUiState>(
-            initialValue = PlayersUiState.Loading,
-            key1 = lifecycle,
-            key2 = teamViewModel
+    if (show && !allPlayers.isEmpty()) {
+        Dialog(
+            onDismissRequest = { onDismiss() }
         ) {
-            lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
-                teamViewModel.uiPlayersState.collect { value = it }
-            }
-        }
-
-        val uiTeamPlayersState by produceState<PlayersUiState>(
-            initialValue = PlayersUiState.Loading,
-            key1 = lifecycle,
-            key2 = teamViewModel
-        ) {
-            lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
-                teamViewModel.uiTeamPlayersState.collect { value = it }
-            }
-        }
-
-        when (uiPlayersState) {
-            is PlayersUiState.Error -> {}
-            PlayersUiState.Loading -> {
-                ContentLoadingProgressBar()
-            }
-            is PlayersUiState.Success -> {
-                Dialog(
-                    onDismissRequest = { onDismiss() }
-                ) {
-                    Column() {
-                        LazyColumn() {
-                            items(
-                                (uiPlayersState as PlayersUiState.Success).playerState.players.filter {
-                                    !(uiTeamPlayersState as PlayersUiState.Success).playerState.players.map { it.playerId }.contains(it.playerId)
-                                  }
-                                ,
-                                key = { it.playerId }
-                            ) { player ->
-                                TeamPlayerCardDialog(player)
-                            }
-                        }
-                        Spacer(modifier = Modifier.size(4.dp))
-                        Button(
-                            onClick = {
-                                onDismiss()
-                                onTeamPlayersAdded(
-                                    teamId,
-                                    (uiPlayersState as PlayersUiState.Success).playerState.players.filter { it.isSelected.value }
-                                )
-                            }, modifier = Modifier
-                                .padding(horizontal = 8.dp)
-                                .fillMaxWidth()
-                            //enabled = isAddingPlayerEnable
-                        ) {
-                            Text(text = ADD)
-                        }
+            Column() {
+                LazyColumn() {
+                    items(
+                        allPlayers.filterNot { player ->  teamPlayers.map { teamPlayer -> teamPlayer.playerId }.contains(player.playerId)},
+                        key = { it.playerId }
+                    ) { player ->
+                        TeamPlayerCardDialog(player)
                     }
+                }
+                Spacer(modifier = Modifier.size(4.dp))
+                Button(
+                    onClick = {
+                        onDismiss()
+                        onTeamPlayersAdded(
+                            teamId,
+                            allPlayers.filter { it.isSelected.value }
+                        )
+                    }, modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .fillMaxWidth()
+                    //enabled = isAddingPlayerEnable
+                ) {
+                    Text(text = ADD)
                 }
             }
         }
